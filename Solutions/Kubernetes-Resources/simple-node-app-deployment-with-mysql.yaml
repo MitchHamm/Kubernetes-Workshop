@@ -30,7 +30,8 @@ spec:
         name: simple-node-app
     spec:
       containers:
-      - env:
+      - name: simple-node-app
+        env:
         - name: CONFIG_PATH
           value: /var/lib/queue
         image: boldapps/simple-node-app:1.0.0
@@ -38,6 +39,21 @@ spec:
         name: simple-node-app
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+      - name: mysql
+        image: mysql/mysql-server:5.6
+        command: ["mysql -uroot -proot < echo \"GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'root';\""]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "node-app-db"
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        - name: MYSQL_ROOT_HOST
+          value: "%"
+        ports:
+        - containerPort: 3306
+          name: mysql
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

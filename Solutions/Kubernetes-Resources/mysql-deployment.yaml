@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "4"
+  labels:
+    component: mysql
+    kubernetes.io/hostname: mysql
+  name: mysql
+  namespace: simple-node-app
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: mysql
+      component: mysql
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mysql
+        component: mysql
+        name: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql/mysql-server:5.6
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "node-app-db"
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD

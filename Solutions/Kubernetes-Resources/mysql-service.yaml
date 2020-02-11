@@ -2,15 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: simple-node-app
-  name: simple-node-app
+    name: mysql
+  name: mysql
   namespace: simple-node-app
 spec:
   ports:
-  - name: simple-node-app
-    port: 3000
-    targetPort: 3000
-    nodePort: 31300
+  - name: mysql
+    port: 3306
+    nodePort: 31307
   selector:
     name: simple-node-app
   sessionAffinity: None
