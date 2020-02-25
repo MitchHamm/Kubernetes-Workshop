@@ -11,5 +11,5 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 RUN apt-get install yarn -y
 RUN yarn install
 
-EXPOSE 80
+EXPOSE 3000
 CMD [ "yarn", "start" ]
